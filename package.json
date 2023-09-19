@@ -1,0 +1,21 @@
+{
+  "name": "style-sample",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thats-s/style-sample.git"
+  },
+  "keywords": [],
+  "engines": {
+    "node": "18.18.0",
+    "npm": "9.8.1"
+  },
+  "volta": {
+    "node": "18.18.0",
+    "npm": "9.8.1"
+  }
+}
