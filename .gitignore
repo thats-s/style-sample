@@ -1,0 +1,10 @@
+# Directory
+node_modules
+
+# Files
+Thumbs.db
+.DS_Store
+
+# VS Code
+.vscode
+.history
