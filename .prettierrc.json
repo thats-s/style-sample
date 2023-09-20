@@ -1,0 +1,15 @@
+{
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["*.scss"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ],
+  "importOrder": ["^@?\\w", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrderGroupNamespaceSpecifiers": true
+}
