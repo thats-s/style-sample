@@ -17,5 +17,8 @@
   "volta": {
     "node": "18.18.0",
     "npm": "9.8.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
   }
 }
