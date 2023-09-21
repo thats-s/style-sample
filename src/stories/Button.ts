@@ -1,4 +1,4 @@
-import './button.css';
+import './button.scss';
 
 export interface ButtonProps {
   /**
@@ -40,8 +40,12 @@ export const createButton = ({
     btn.addEventListener('click', onClick);
   }
 
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  btn.className = ['storybook-button', `storybook-button--${size}`, mode].join(' ');
+  const mode = primary
+    ? 'storybook-button--primary'
+    : 'storybook-button--secondary';
+  btn.className = ['storybook-button', `storybook-button--${size}`, mode].join(
+    ' ',
+  );
 
   if (backgroundColor) {
     btn.style.backgroundColor = backgroundColor;

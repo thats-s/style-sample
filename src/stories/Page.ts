@@ -1,5 +1,5 @@
-import './page.css';
 import { createHeader } from './Header';
+import './page.scss';
 
 type User = {
   name: string;
@@ -12,7 +12,10 @@ export const createPage = () => {
 
   const rerenderHeader = () => {
     const wrapper = document.getElementsByTagName('article')[0];
-    wrapper.replaceChild(createHeaderElement(), wrapper.firstChild as HTMLElement);
+    wrapper.replaceChild(
+      createHeaderElement(),
+      wrapper.firstChild as HTMLElement,
+    );
   };
 
   const onLogin = () => {
