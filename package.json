@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "lint": "run-p lint:*",
+    "lint:ts": "eslint --fix src/**/*.ts",
+    "lint:scss": "stylelint src/**/*.scss",
     "format": "prettier . --write",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -34,6 +37,7 @@
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-storybook": "^0.6.14",
+    "npm-run-all": "^4.1.5",
     "prettier": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
