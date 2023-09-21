@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "format": "prettier . --write"
+    "format": "prettier . --write",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,18 @@
     "npm": "9.8.1"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.4.3",
+    "@storybook/addon-interactions": "^7.4.3",
+    "@storybook/addon-links": "^7.4.3",
+    "@storybook/blocks": "^7.4.3",
+    "@storybook/html": "^7.4.3",
+    "@storybook/html-vite": "^7.4.3",
+    "@storybook/testing-library": "^0.2.1",
     "@trivago/prettier-plugin-sort-imports": "^4.2.0",
     "prettier": "^3.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.4.3",
     "stylelint": "^15.10.3",
     "stylelint-config-recess-order": "^4.3.0",
     "stylelint-config-recommended-scss": "^13.0.0",
