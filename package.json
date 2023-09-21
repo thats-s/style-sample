@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "run-p lint:*",
     "lint:ts": "eslint --fix src/**/*.ts",
-    "lint:scss": "stylelint src/**/*.scss",
+    "lint:scss": "stylelint --fix src/**/*.scss",
     "format": "prettier . --write",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
