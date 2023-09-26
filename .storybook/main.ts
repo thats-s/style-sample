@@ -9,7 +9,8 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-mdx-gfm'
+    '@storybook/addon-mdx-gfm',
+    '@xfinx/storybook-addon-html',
   ],
   framework: {
     name: '@storybook/html-vite',
