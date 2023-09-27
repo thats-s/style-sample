@@ -1,0 +1,19 @@
+/* -----------------------------------------------------------------------
+ * Color
+ * -------------------------------------------------------------------- */
+
+// The berow colors are named by Name That Color that is VS code plugin.
+// Name That Color is A VS Code Plugin to convert hex color representation into friendly names built upon Chirag Mehta's ntc.js.
+// http://chir.ag/projects/name-that-color/
+
+/* ------------------------------------
+ * Palette
+ * --------------------------------- */
+$mine-shaft: #333;
+
+/* ------------------------------------
+ * Properties List
+ * --------------------------------- */
+$properties-list: (
+  text-base: $mine-shaft,
+);

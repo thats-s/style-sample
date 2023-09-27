@@ -1,0 +1,48 @@
+@use "../global/index" as global;
+
+/* -----------------------------------------------------------------------
+ * Elements (Site Based)
+ * -------------------------------------------------------------------- */
+
+/* ------------------------------------
+ * Root
+ * --------------------------------- */
+:root {
+  // color
+  @each $key, $value in global.$color-properties-list {
+    --color-#{$key}: #{$value};
+  }
+
+  // font-weight
+  @each $key, $value in global.$font-weight-list {
+    --font-#{$key}: #{$value};
+  }
+}
+
+/* ------------------------------------
+ * html, body
+ * --------------------------------- */
+html,
+body {
+  font-feature-settings: "palt" 1;
+}
+
+body {
+  font-family: global.$font-nunito-sans;
+  font-weight: var(--font-nunito-sans-regular);
+  line-height: 1.6;
+  color: var(--color-text-base);
+}
+
+/* ------------------------------------
+ * Paragraph
+ * --------------------------------- */
+p {
+  margin: 0 0 12px;
+  font-size: global.rem(12);
+
+  @include global.break-sp() {
+    margin: 0 0 16px;
+    font-size: global.rem(14);
+  }
+}

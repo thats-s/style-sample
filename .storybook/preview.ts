@@ -1,6 +1,8 @@
 import type { Preview } from '@storybook/html';
 import 'destyle.css';
 
+import '../src/scss/style.scss';
+
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },

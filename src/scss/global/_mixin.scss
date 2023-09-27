@@ -1,0 +1,80 @@
+@use "./variable" as var;
+
+/* -----------------------------------------------------------------------
+ * Mixin
+ * -------------------------------------------------------------------- */
+
+/* ------------------------------------
+ * Breakpoint
+ * --------------------------------- */
+@mixin break-sp() {
+  @media screen and (min-width: var.$break-sp) {
+    @content;
+  }
+}
+
+@mixin break-tab() {
+  @media screen and (min-width: var.$break-tab) {
+    @content;
+  }
+}
+
+/* ------------------------------------
+ * Hover
+ * --------------------------------- */
+@mixin hover() {
+  @media (any-hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+/* ------------------------------------
+ * Reset-margin
+ * --------------------------------- */
+@mixin reset-margin($order: all) {
+  @if $order == first {
+    > * {
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+  } @else if $order == last {
+    > * {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  } @else if $order == all {
+    > * {
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+/* ------------------------------------
+ * WAI-ARIA
+ * --------------------------------- */
+@mixin aria-expanded-true() {
+  &[aria-expanded="true"] {
+    @content;
+  }
+}
+
+/* ------------------------------------
+ * Hidden
+ * --------------------------------- */
+@mixin visually-hidden() {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
