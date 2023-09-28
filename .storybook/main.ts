@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/html-vite';
+import path from 'path';
 
 const config: StorybookConfig = {
   stories: [
@@ -17,6 +18,15 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: 'tag',
+  },
+  async viteFinal(config) {
+    if (config.resolve && config.resolve.alias) {
+      config.resolve.alias['@'] = path.resolve(__dirname, '../src/components');
+    }
+
+    return {
+      ...config,
+    };
   },
 };
 export default config;
