@@ -14,7 +14,21 @@
   "rules": {
     "indent": ["error", 2],
     "semi": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "eqeqeq": ["error", "always"],
+    "@typescript-eslint/explicit-member-accessibility": [
+      "error",
+      {
+        "accessibility": "explicit",
+        "overrides": {
+          "accessors": "explicit",
+          "constructors": "no-public",
+          "methods": "explicit",
+          "properties": "off",
+          "parameterProperties": "explicit"
+        }
+      }
+    ]
   },
   "overrides": [
     {
