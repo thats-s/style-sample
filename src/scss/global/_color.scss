@@ -9,11 +9,22 @@
 /* ------------------------------------
  * Palette
  * --------------------------------- */
+$white: #fff;
+$mercury: #e6e6e6;
+$magenta-fuchsia: #f0f;
 $mine-shaft: #333;
 
 /* ------------------------------------
  * Properties List
  * --------------------------------- */
 $properties-list: (
+  // text
   text-base: $mine-shaft,
+
+  // background
+  bg-gray: $mercury,
+  bg-white: $white,
+
+  // border
+  border-emphasis-pink: $magenta-fuchsia
 );

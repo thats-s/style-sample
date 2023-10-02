@@ -1,0 +1,178 @@
+import { ArgTypes, Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as CenterStories from './Center.stories';
+
+<Meta of={CenterStories} />
+
+# Layout Center
+
+中央揃えのパターンをまとめたサンプルです。
+
+以下の比較項目で確認できます。
+
+- Squished: 中央揃えはアイテムの幅が変更しても対応
+- Squashed: 中央揃えはアイテムの高さが変更しても対応
+- Duplicate: 中央揃えはアイテムの数が変更しても対応
+- Edit: 中央揃えはコンテンツの長さを編集しても対応
+- Flow: 中央揃えはwriting mode（フロー）に依存しない
+
+ピンクのボーダーで囲まれた要素が中央揃えの所有権を示しています。
+
+グレーのボックスは、子要素を中央配置にするコンテナです。
+
+子要素の背景色はホワイトです。
+
+<ArgTypes of={CenterStories} />
+
+## Content Center
+
+<Canvas>
+  <Story of={CenterStories.ContentCenter} />
+</Canvas>
+
+- Squished: great!
+- Squashed: great!
+- Duplicate: great!
+- Edit: great!
+- Flow: great!
+
+`display: grid`と`place-content`ショートハンドで実現。<br />
+※`display: flex`でも使用可能
+
+**子要素全てを中央揃えにする**のでグループ化して複数の要素を配置するのに最適です。
+
+```css
+.content-center {
+  display: grid;
+  gap: 10px;
+  place-content: center;
+}
+```
+
+- 長所
+  - 要素間のマージンは`gap`によって保証される
+- 短所
+  - 最も幅が広い子要素の幅に揃う
+
+## Gentle Flex
+
+<Canvas>
+  <Story of={CenterStories.GentleFlex} />
+</Canvas>
+
+- Squished: great!
+- Squashed: great!
+- Duplicate: great!
+- Edit: great!
+- Flow: great!
+
+`place-content: center`とは異なり、中央揃えをしている間に子要素のボックスサイズは変更されません。<br />
+**すべてのアイテムは積み重ねられて中央に配置**され、スペースをあけて配置されます。
+
+```css
+.gentle-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+```
+
+- 長所
+  - 配置・方向・分散のみ影響
+- 短所
+  - コード量が多い
+
+## Autobot
+
+<Canvas>
+  <Story of={CenterStories.Autobot} />
+</Canvas>
+
+- Squished: great
+- Squashed: great
+- Duplicate: fine
+- Edit: great
+- Flow: great
+
+コンテナ`display: flex;`を定義し、整列のスタイルはありませんが、**直接の子要素は自動マージンで中央に配置**されます。
+
+```css
+.autobot {
+  display: flex;
+
+  > .content {
+    margin: auto;
+  }
+}
+```
+
+- 長所
+  - 簡単
+- 短所
+  - ギャップではなくディストリビューション（分配）に頼るので、子要素が側面に触れた状態でレイアウトが可能
+  - 自動マージンによりプッシュされることは最適とは思えず、子要素のボックスサイズに影響をもたらす可能性がある
+
+アイコンや擬似要素を中央に配置するのに適しています。
+
+## Fluffy Center
+
+<Canvas>
+  <Story of={CenterStories.FluffyCenter} />
+</Canvas>
+
+- Squished: bad
+- Squashed: bad
+- Duplicate: bad
+- Edit: great!
+- Flow: great!（論理プロパティを使用する場合）
+
+この中で唯一の**子要素で完結する中央揃えのテクニック**です。
+
+```css
+.fluffy-center {
+  padding: 15vmin;
+}
+```
+
+- 短所
+  - それぞれのサイズは非常にしっかりしているため、コンテナとアイテムが衝突する
+
+タグやボタンなど、単語やフレーズ中心の中央揃えに適しています。
+
+## Pop & Plop
+
+<Canvas>
+  <Story of={CenterStories.PopPlop} />
+</Canvas>
+
+- Squished: ok
+- Squashed: ok
+- Duplicate: bad
+- Edit: fine
+- Flow: fine
+
+このテクニックは絶対配置によって要素を**通常のフローから外して中央揃え**にします。<br />
+UIを他のUIの上に重ねて配置する必要がある時に使えます。
+
+```css
+.pop-plop {
+  position: relative;
+
+  > .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+```
+
+- 長所
+  - 便利で信頼性が高い
+- 短所
+  - `position: relative`が必要
+  - 含まれているブロックごとに1つしか存在できない
+
+モーダル、メッセージ、スタック、奥行き効果、ポップオーバーに適しています。
