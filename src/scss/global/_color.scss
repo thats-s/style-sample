@@ -9,9 +9,19 @@
 /* ------------------------------------
  * Palette
  * --------------------------------- */
+// white
 $white: #fff;
+
+// gray
 $mercury: #e6e6e6;
+
+// pink
 $magenta-fuchsia: #f0f;
+
+// green
+$vida-loca: #53a318;
+
+// black
 $mine-shaft: #333;
 
 /* ------------------------------------
@@ -20,11 +30,17 @@ $mine-shaft: #333;
 $properties-list: (
   // text
   text-base: $mine-shaft,
+  text-progress-bar: $vida-loca,
 
   // background
-  bg-gray: $mercury,
   bg-white: $white,
+  bg-gray: $mercury,
+  bg-disabled-gray: $mercury,
+  bg-progress-bar-complete: $vida-loca,
 
   // border
-  border-emphasis-pink: $magenta-fuchsia
+  border-white: $white,
+  border-emphasis-pink: $magenta-fuchsia,
+  border-disabled-gray: $mercury,
+  border-progress-bar-active: $vida-loca
 );

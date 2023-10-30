@@ -1,3 +1,5 @@
+@use "./function" as function;
+
 /* -----------------------------------------------------------------------
  * Variable
  * -------------------------------------------------------------------- */
@@ -18,6 +20,12 @@ $font-nunito-sans: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif
 $font-weight-list: (
   nunito-sans-regular: 400,
   nunito-sans-bold: 700,
+);
+
+// font-size
+$font-size-list: (
+  pc-default: function.rem(16),
+  sp-default: function.rem(14),
 );
 
 /* ------------------------------------

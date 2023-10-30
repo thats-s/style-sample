@@ -17,6 +17,11 @@
   @each $key, $value in global.$font-weight-list {
     --font-#{$key}: #{$value};
   }
+
+  // font-size
+  @each $key, $value in global.$font-size-list {
+    --font-size-#{$key}: #{$value};
+  }
 }
 
 /* ------------------------------------
@@ -39,10 +44,10 @@ body {
  * --------------------------------- */
 p {
   margin: 0 0 12px;
-  font-size: global.rem(14);
+  font-size: var(--font-size-sp-default);
 
   @include global.break-sp() {
     margin: 0 0 16px;
-    font-size: global.rem(16);
+    font-size: var(--font-size-pc-default);
   }
 }

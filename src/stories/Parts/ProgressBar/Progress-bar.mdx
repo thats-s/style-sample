@@ -1,0 +1,41 @@
+import { ArgTypes, Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as ProgressBarStories from './Progress-bar.stories.ts';
+
+<Meta of={ProgressBarStories} />
+
+# Progress Bar
+
+フォームなどのタスク完了までの進捗状況を表示するプログレスバーのサンプルです。
+
+シンプルなHTMLで実装されており、画像は未使用、文字要素と`border`と`border-radius`でスタイリングされています。
+
+## Default
+
+<Canvas>
+  <Story of={ProgressBarStories.Default} />
+</Canvas>
+
+## Step02
+
+<Canvas>
+  <Story of={ProgressBarStories.Step02} />
+</Canvas>
+
+## Multiple Steps Complete
+
+<Canvas>
+  <Story of={ProgressBarStories.MultipleStepsComplete} />
+</Canvas>
+
+## Hover
+
+<Canvas>
+  <Story of={ProgressBarStories.Hover} />
+</Canvas>
+
+## Last Step
+
+<Canvas>
+  <Story of={ProgressBarStories.LastStep} />
+</Canvas>
