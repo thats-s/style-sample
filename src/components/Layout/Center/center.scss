@@ -21,76 +21,68 @@
   }
 }
 
-@mixin root() {
+@mixin root($className) {
   .layout-center {
-    @content;
+    &.#{$className} {
+      @content;
+    }
   }
 }
 
 /* ------------------------------------
  * Content Center
  * --------------------------------- */
-@include root() {
-  &.content-center {
-    display: grid;
-    gap: 10px;
-    place-content: center;
-  }
+@include root("content-center") {
+  display: grid;
+  gap: 10px;
+  place-content: center;
 }
 
 /* ------------------------------------
  * Gentle Flex
  * --------------------------------- */
-@include root() {
-  &.gentle-flex {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-  }
+@include root("gentle-flex") {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ------------------------------------
  * Autobot
  * --------------------------------- */
-@include root() {
-  &.autobot {
-    display: flex;
+@include root("autobot") {
+  display: flex;
 
-    > .content {
-      margin: auto;
-    }
+  > .content {
+    margin: auto;
   }
 }
 
 /* ------------------------------------
  * Fluffy Center
  * --------------------------------- */
-@include root() {
-  &.fluffy-center {
-    padding: 15vmin;
-    border: none;
+@include root("fluffy-center") {
+  padding: 15vmin;
+  border: none;
 
-    > .content {
-      border: 1px solid var(--color-border-emphasis-pink);
-    }
+  > .content {
+    border: 1px solid var(--color-border-emphasis-pink);
   }
 }
 
 /* ------------------------------------
  * Pop & Plop
  * --------------------------------- */
-@include root() {
-  &.pop-plop {
-    position: relative;
+@include root("pop-plop") {
+  position: relative;
 
-    > .content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border: 1px solid var(--color-border-emphasis-pink);
-      transform: translate(-50%, -50%);
-    }
+  > .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid var(--color-border-emphasis-pink);
+    transform: translate(-50%, -50%);
   }
 }
