@@ -1,0 +1,91 @@
+@use "../../../scss/global/index" as global;
+
+/* -----------------------------------------------------------------------
+ * Layout / Grid
+ * -------------------------------------------------------------------- */
+.layout-grid {
+  & + .layout-grid {
+    margin-top: 50px;
+  }
+}
+
+@mixin root($className) {
+  .layout-grid {
+    &.#{$className} {
+      @content;
+    }
+  }
+}
+
+/* ------------------------------------
+ * Article Layout
+ * --------------------------------- */
+@include root("article-layout") {
+  display: grid;
+  grid-template-columns:
+    minmax(30px, 1fr)
+    minmax(auto, 800px)
+    minmax(30px, 1fr);
+  gap: 20px 0;
+
+  // 子要素を全て中央に配置
+  > .content {
+    grid-column: 2;
+
+    // 幅を広げて中央に配置
+    &.of-wide {
+      grid-column: 1 / 4;
+      justify-self: center;
+      width: 100%;
+      max-width: 100ch;
+    }
+
+    > p {
+      margin: 0;
+    }
+  }
+}
+
+/* ------------------------------------
+ * Multi Column
+ * --------------------------------- */
+@include root("multi-column") {
+  display: grid;
+  gap: 15px;
+  width: 100%;
+
+  &.auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  &.auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  > .column {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid;
+
+    &:nth-child(5) {
+      grid-column: span 2;
+    }
+  }
+}
+
+/* ------------------------------------
+ * Card Layout
+ * --------------------------------- */
+@include root("card-layout") {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  width: 100%;
+
+  > .content {
+    > p {
+      margin: 0;
+    }
+  }
+}

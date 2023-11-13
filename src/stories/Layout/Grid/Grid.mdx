@@ -1,0 +1,69 @@
+import { ArgTypes, Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as GridStories from './Grid.stories';
+
+<Meta of={GridStories} />
+
+# Grid Layout
+
+CSS Gridを使用したレイアウト改善のテクニック3つの実装例です。
+
+## Article Layout
+
+記事ページなどで、特定の要素を記事の最大幅より広げたい場合に使用できるテクニックです。
+
+![記事より広くして配置](/src/stories/assets/layout/grid/article_layout_01.png)
+
+3カラムのグリッドを用意して、中央のカラムは記事のコンテンツエリアで、両端の2つのカラムは余白（パディング）として機能させています。
+
+<Canvas>
+  <Story of={GridStories.ArticleLayout} />
+</Canvas>
+
+スクリーンサイズによって余白を調整したい場合は、余白の部分の指定を`calc(1rem + 1 * var(--ratio))`に置き換えると、メディアクエリを使用せずに余白を動的に変化させることができます。
+
+## Multi Column
+
+スクリーンサイズに合わせてカラム数が変更されるレイアウトの実装例です。
+
+![マルチカラムのグリッド](/src/stories/assets/layout/grid/multi_column_01.png)
+
+CSS Gridでは、各要素のカラム幅を定義しません。カラムの数はブラウザに決定させます。
+
+以下のCSSを使用すると、スケーラブルなレイアウトを簡単に実現できます。
+
+```css
+.grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+```
+
+`repeat()`を使用すると、繰り返しを定義することができるので、例えば`repeat(3, 1fr)`は、スクリーン全体を占める3つの同じサイズのカラムのレイアウトを作成します。
+
+しかし、ほとんどの場合、要素には最小幅があるので`1fr`でそれを崩すことができます。`minmax(250px, 1fr)`は各カラムの最小幅が250pxになり、大きなスクリーンでは拡大縮小されます。
+
+固定値には`auto-fit`または`auto-fill`が指定できますが、どちらのキーワードもブラウザにカラム数を決定させるものです。
+
+`auto-fill`はスクリーンサイズが広がって最小幅分のスペースは生まれると、そこに新たな空のグリッドを生成しますが、`auto-fit`では空のグリッドは生成せずにスクリーンサイズにfit（フィット）する形で伸びていきます。
+
+これにより、メディアクエリを使用せずに、レスポンシブ対応のレイアウトの柔軟性が大幅に向上します。
+
+<Canvas>
+  <Story of={GridStories.MultiColumn} />
+</Canvas>
+
+カラム要素に`grid-column: span 2`属性を定義すると2つのカラムにまたがるようになります。全ての要素を同じサイズにする必要がない場合に活用できます。
+
+## Card Layout
+
+画像とコンテンツが隣り合わせになったカードレイアウトの実装例です。
+
+スクリーンサイズによって画像とコンテンツの配置が上下に変わり、それに伴い比率も変更するコンセプトです。
+
+![2方向のカードレイアウト](/src/stories/assets/layout/grid/card_layout_01.png)
+
+これはよく見かけるレイアウトですが、前述したグリッドレイアウトに`grid-template-rows: auto 1fr;`を追加することで実現できます。
+
+`auto`の値は、比率を変更して垂直方向に対応します。これは画像が横向きであることを前提としています。子要素は2つ（画像・コンテンツ）しかないので、CSS Gridが残りの部分を処理します。
