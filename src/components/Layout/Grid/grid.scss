@@ -3,14 +3,14 @@
 /* -----------------------------------------------------------------------
  * Layout / Grid
  * -------------------------------------------------------------------- */
-.layout-grid {
-  & + .layout-grid {
+.l-grid {
+  & + .l-grid {
     margin-top: 50px;
   }
 }
 
 @mixin root($className) {
-  .layout-grid {
+  .l-grid {
     &.#{$className} {
       @content;
     }

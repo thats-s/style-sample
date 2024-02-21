@@ -16,7 +16,7 @@ type Story = StoryObj<ProgressBarProps>;
 export const Default: Story = {
   args: {
     template: `
-<ol class="progress-bar">
+<ol class="p-progress-bar">
   <li class="is-active"><span>Objective & Template</span></li>
   <li><span>Options</span></li>
   <li><span>Step</span></li>
@@ -35,7 +35,7 @@ export const Default: Story = {
 export const Step02: Story = {
   args: {
     template: `
-<ol class="progress-bar">
+<ol class="p-progress-bar">
   <li class="is-complete"><span>Objective & Template</span></li>
   <li class="is-active"><span>Options</span></li>
   <li><span>Step</span></li>
@@ -54,7 +54,7 @@ export const Step02: Story = {
 export const MultipleStepsComplete: Story = {
   args: {
     template: `
-<ol class="progress-bar">
+<ol class="p-progress-bar">
   <li class="is-complete"><span>Objective &amp; Template</span></li>
   <li class="is-complete"><span>Options</span></li>
   <li class="is-complete"><span>Step</span></li>
@@ -73,7 +73,7 @@ export const MultipleStepsComplete: Story = {
 export const Hover: Story = {
   args: {
     template: `
-<ol class="progress-bar">
+<ol class="p-progress-bar">
   <li class="is-complete"><span>Objective &amp; Template</span></li>
   <li class="is-complete"><span>Options</span></li>
   <li class="is-complete"><span>Step</span></li>
@@ -92,7 +92,7 @@ export const Hover: Story = {
 export const LastStep: Story = {
   args: {
     template: `
-<ol class="progress-bar">
+<ol class="p-progress-bar">
   <li class="is-complete"><span>Objective &amp; Template</span></li>
   <li class="is-complete"><span>Options</span></li>
   <li class="is-complete"><span>Step</span></li>

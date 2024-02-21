@@ -3,7 +3,7 @@
 /* -----------------------------------------------------------------------
  * Layout / Center
  * -------------------------------------------------------------------- */
-.layout-center {
+.l-center {
   &.container {
     min-height: 200px;
     padding: 10px;
@@ -22,7 +22,7 @@
 }
 
 @mixin root($className) {
-  .layout-center {
+  .l-center {
     &.#{$className} {
       @content;
     }
