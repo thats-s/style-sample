@@ -1,0 +1,267 @@
+@use "../../../../scss/global/index" as g;
+
+/* -----------------------------------------------------------------------
+ * Parts / List / Ribbon
+ * -------------------------------------------------------------------- */
+$p-list-ribbon-color-list: (
+  item-01: g.$color-mountain-meadow,
+  gradient-item-01:
+    linear-gradient(
+      to right,
+      g.$color-bright-turquoise,
+      g.$color-mountain-meadow
+    ),
+  item-02: g.$color-violet-red,
+  gradient-item-02:
+    linear-gradient(to right, g.$color-brilliant-rose, g.$color-violet-red),
+  item-03: g.$color-picton-blue,
+  gradient-item-03:
+    linear-gradient(to right, g.$color-picton-blue_02, g.$color-picton-blue),
+  focus-outline: g.$color-tuna,
+  root-background: g.$color-white,
+  text: g.$color-white,
+  shadow: g.$color-black,
+);
+
+.p-list-ribbon {
+  @each $key, $value in $p-list-ribbon-color-list {
+    --color-list-ribbon-#{$key}: #{$value};
+  }
+
+  width: 100%;
+  font-size: g.rem(15);
+
+  &-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 1em;
+    gap: 1px;
+  }
+
+  &-item {
+    position: relative;
+
+    &:nth-child(1) {
+      z-index: 3;
+      background-color: var(--color-list-ribbon-item-01);
+    }
+
+    &:nth-child(2) {
+      z-index: 2;
+      background-color: var(--color-list-ribbon-item-02);
+    }
+
+    &:nth-child(3) {
+      z-index: 1;
+      background-color: var(--color-list-ribbon-item-03);
+    }
+  }
+
+  &-link {
+    display: block;
+    padding: 0.667em 0.667em 0.667em 1.333em;
+    font-size: 1.5em;
+    font-weight: var(--font-nunito-sans-bold);
+    line-height: 1.333em;
+    color: var(--color-list-ribbon-text);
+    letter-spacing: 0.01em;
+
+    @include g.hover() {
+      text-decoration: underline;
+    }
+
+    @include g.focus() {
+      outline: none;
+      box-shadow: inset 0 -3px 0 0 var(--color-list-ribbon-focus-outline);
+    }
+  }
+}
+
+// 疑似要素のborderを使用して三角形を作成
+.p-list-ribbon-alpha {
+  .p-list-ribbon {
+    &-item {
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+          > a {
+            &::after {
+              border-left-color: var(--color-list-ribbon-item-0#{$i});
+            }
+          }
+        }
+      }
+    }
+
+    &-link {
+      // 左右の矢印で共通のスタイル
+      &::before,
+      &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        content: "";
+        border-top: 1.333em solid transparent;
+        border-bottom: 1.333em solid transparent;
+        border-left: 0.667em solid;
+      }
+
+      // 左の矢印
+      &::before {
+        left: 0;
+        border-left-color: var(--color-list-ribbon-root-background);
+      }
+
+      // 右の矢印
+      &::after {
+        right: 0;
+        transform: translateX(0.667em);
+      }
+    }
+  }
+}
+
+// 擬似要素にSVG背景画像を使用して三角形を作成
+.p-list-ribbon-beta {
+  .p-list-ribbon {
+    &-item {
+      &:nth-child(1) {
+        > a {
+          &::after {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjMTFkMjk1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+          }
+        }
+      }
+
+      &:nth-child(2) {
+        > a {
+          &::after {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjZWYzNjc1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+          }
+        }
+      }
+
+      &:nth-child(3) {
+        > a {
+          &::after {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjNGNkNGU5IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+          }
+        }
+      }
+    }
+
+    &-link {
+      // 左右の矢印で共通のスタイル
+      &::before,
+      &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        content: "";
+        background-repeat: no-repeat;
+        background-position: center left;
+        background-size: 100%;
+      }
+
+      // 左の矢印
+      &::before {
+        left: 0;
+        width: 0.666666em;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSIjZmZmIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+      }
+
+      // 右の矢印
+      &::after {
+        right: 0;
+        width: 0.667em;
+        transform: translateX(0.667em);
+      }
+    }
+  }
+}
+
+// インラインのSVG画像を使用して三角形を作成
+.p-list-ribbon-gamma {
+  .p-list-ribbon {
+    &-item {
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+          svg {
+            &:last-child {
+              fill: var(--color-list-ribbon-item-0#{$i});
+            }
+          }
+        }
+      }
+    }
+
+    &-link {
+      > svg {
+        position: absolute;
+        top: 0;
+        width: 0.667em;
+        height: 2.667em;
+
+        &:first-child {
+          left: 0;
+          fill: var(--color-list-ribbon-root-background);
+        }
+
+        &:last-child {
+          left: 100%;
+        }
+      }
+    }
+  }
+}
+
+// polygon()関数を使ってclip-pathで三角形を作成
+.p-list-ribbon-delta {
+  .p-list-ribbon {
+    &-item {
+      clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+
+      &:not(:last-child) {
+        width: 105%;
+      }
+
+      &:last-child {
+        width: calc(100% + 0.667em);
+      }
+    }
+  }
+}
+
+// シャドウを加える
+.p-list-ribbon-shadow {
+  .p-list-ribbon {
+    &-item {
+      box-shadow: 1px 3px 3px -3px var(--color-list-ribbon-shadow);
+    }
+  }
+}
+
+// グラデーションを加える
+.p-list-ribbon-gradient {
+  .p-list-ribbon {
+    &-item {
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+          background: var(--color-list-ribbon-gradient-item-0#{$i});
+        }
+      }
+    }
+  }
+}
+
+// 小さいリボン
+.p-list-ribbon-small {
+  font-size: g.rem(10);
+}
+
+// 大きいリボン
+
+.p-list-ribbon-big {
+  font-size: g.rem(20);
+}
