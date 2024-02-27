@@ -1,0 +1,373 @@
+import { ArgTypes, Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as RibbonStories from './Ribbon.stories.ts';
+
+<Meta of={RibbonStories} />
+
+# Ribbon
+
+サイトのパンくずやフォームのステップでよく見かけるリボン型ナビゲーションのサンプルです。
+
+CSSでの実装方法は様々あり、シャドウやグラデーションを適用したバリエーションの実装方法も解説します。
+
+## HTMLの構造
+
+```html
+<nav aria-label="Breadcrumb" class="p-list-ribbon">
+  <ol class="p-list-ribbon-list">
+    <li class="p-list-ribbon-item">
+      <a href="/" class="p-list-ribbon-link">Home</a>
+    </li>
+    <li class="p-list-ribbon-item">
+      <a href="/" class="p-list-ribbon-link">Blog</a>
+    </li>
+    <li class="p-list-ribbon-item">
+      <a aria-current="page" class="p-list-ribbon-link">Post</a>
+    </li>
+  </ol>
+</nav>
+```
+
+アクセシブルにするために`aria-label`を付与して、現在地には`aria-current`を設定しています。
+
+## CSS：ベースのスタイル
+
+```css
+.p-list-ribbon {
+  /* ラッパー要素のフォントサイズを定義 */
+  font-size: 0.9375rem;
+}
+
+.p-list-ribbon-link {
+  /* emを使ってリボン要素のサイズを定義 */
+  padding: 0.667em 0.667em 0.667em 1.333em;
+  font-size: 1.5em;
+  line-height: 1.333em;
+  letter-spacing: 0.01em;
+}
+```
+
+ラッパーのフォントサイズは三角形を計算するためにも使用します。
+
+`em`を使用してサイズを計算しているので、ラッパー要素の`font-size`を再定義するとすべての要素のサイズを変更できます。
+
+レイアウトには`Grid`を使用します。
+4つの列を定義しますが、それぞれ以下の役割です。
+
+- 3つはリボン要素のため
+- 1つはスペースを調整するため
+
+スペースを調整しないと、右矢印の形がリボンコンポーネントの外側に配置されてしまい、全体のサイズが想定よりも大きくなってしまいます。
+
+```css
+.p-list-ribbon-list {
+  display: grid;
+  /* サイズ変更の問題を解決するために3つのリボン要素と1つの列を定義 */
+  grid-template-columns: repeat(3, 1fr) 1em;
+  gap: 1px;
+}
+```
+
+実装方法は様々ありますが、この方法では複雑な計算なしでリボン要素間の正確なギャップを定義できます。
+
+アクセシビリティを考慮して、ホバーとフォーカスのスタイルも定義します。
+
+アウトラインのスタイルが気に入らない場合は`box-shadow`など他のプロパティを使用することもできます。
+
+```css
+.p-list-ribbon-link:hover {
+  /* ホバーに下線を追加  */
+  text-decoration: underline;
+}
+
+.p-list-ribbon-link:focus {
+  /* アウトラインスタイルを消去し、フォーカス時にインセットのbox-shadowを適用 */
+  outline: none;
+  box-shadow: inset 0 -3px 0 0 var(--color-focus-outline);
+}
+```
+
+## CSS：三角形の実装方法
+
+リボンの端に三角形を実装するには複数の選択肢があります。
+
+- 疑似要素のborderを使用して三角形を作成
+- 擬似要素にSVG背景画像を使用して三角形を作成
+- インラインのSVG画像を使用して三角形を作成
+- `polygon()`関数を使ってclip-pathで三角形を作成
+
+### 疑似要素のborderを使用して三角形を作成
+
+<Canvas>
+  <Story of={RibbonStories.Alpha} />
+</Canvas>
+
+要素のボックスの形状は必要無いので幅と高さを0に設定し、`border`を使用して三角形を描画します。具体的には背景の色と一致する左の実線の`border`を定義して、リボンの他の部分とブレンドするようにします。
+
+その後に、上下の`border`を定義し、それらを透明にします。ポイントは`border`のサイズを求める計算式です。リボン要素は`line-height`の値に加えて上下の`padding`の値を持っています。
+
+```
+0.333em + 0.667em + 0.667em = 2.667em
+```
+
+つまり、上下のborderはその半分の大きさになります。やらなければいけないことは、要素をコンポーネントの正しい側に絶対配置することです。
+
+```css
+/* 左右の矢印で共通のスタイル */
+.p-list-ribbon-alpha .p-list-ribbon-link::before,
+.p-list-ribbon-alpha .p-list-ribbon-link::after {
+  /* コンテンツのサイズを0に設定 */
+  width: 0;
+  height: 0;
+  content: '';
+
+  /* 疑似要素をリボンサイズに合わせるためにborderを使用 */
+  border-top: 1.333em solid transparent;
+  border-bottom: 1.333em solid transparent;
+  border-left: 0.667em solid;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+/* 左の矢印 */
+.p-list-ribbon-alpha .p-list-ribbon-link::before {
+  border-left-color: var(--color-root-background);
+
+  /* リボン要素の左側に要素を絶対配置 */
+  left: 0;
+}
+
+/* 右の矢印 */
+.p-list-ribbon-alpha .p-list-ribbon-link::after {
+  /* リボン要素の右側に要素を絶対配置 */
+  right: 0;
+
+  /* リボン要素の右側に要素を絶対配置して外側に押す */
+  transform: translateX(0.667em);
+}
+```
+
+直角三角形はリボンの背景色と一致するので、各リボンの擬似要素に`border`の正しい色を定義します。
+
+```css
+/* 1番目の要素の右矢印 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(1) > a::after {
+  border-left-color: var(--color-item-02);
+}
+
+/* 2番目の要素の右矢印 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(2) > a::after {
+  border-left-color: var(--color-item-02);
+}
+
+/* 3番目の要素の右矢印 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(3) > a::after {
+  border-left-color: var(--color-item-02);
+}
+```
+
+### 擬似要素にSVG背景画像を使用して三角形を作成
+
+<Canvas>
+  <Story of={RibbonStories.Beta} />
+</Canvas>
+
+borderを使った実装とは異なり、擬似要素の高さをリボン要素の高さ、すなわち100%にする必要があります。
+
+コンポーネントの幅はborderの三角形の左の幅と一致する必要があり、この例では0.666666emです。
+
+次に、左側の三角形の背景画像に白い三角形を使用し、右側の三角形に色の付いた三角形の画像を使用します。
+
+```css
+/* 左右の矢印で共通のスタイル */
+.p-list-ribbon-beta .p-list-ribbon-link::before,
+.p-list-ribbon-beta .p-list-ribbon-link::after {
+  /* 矢印のサイズを定義 */
+  height: 100%;
+  content: '';
+
+  /* 背景画像の属性を定義 */
+  background-repeat: no-repeat;
+  background-position: center left;
+  background-size: 100%;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+/* 左の矢印 */
+.p-list-ribbon-beta .p-list-ribbon-link::before {
+  /* 矢印のサイズを定義 */
+  width: 0.666666em;
+
+  /* 背景色と一致する背景画像を定義 */
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSIjZmZmIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+
+  /* リボン要素の左側に要素を絶対配置 */
+  left: 0;
+}
+
+/* 右の矢印 */
+.p-list-ribbon-beta .p-list-ribbon-link::after {
+  /* 矢印のサイズを定義 */
+  width: 0.667em;
+
+  /* リボン要素の右側に要素を絶対配置して外側に押す */
+  right: 0;
+  transform: translateX(0.667em);
+}
+
+/* 1番目の要素の背景色と一致する背景画像を定義 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(1) > a::after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjMTFkMjk1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+}
+
+/* 2番目の要素の背景色と一致する背景画像を定義 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(2) > a::after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjZWYzNjc1IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+}
+
+/* 3番目の要素の背景色と一致する背景画像を定義 */
+.p-list-ribbon-alpha .p-list-ribbon-item:nth-child(3) > a::after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTAgNDAiIHdpZHRoPSIxMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNSAxNSAyMCAxMGgtNDB6IiBmaWxsPSIjNGNkNGU5IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHRyYW5zZm9ybT0ibWF0cml4KDAgLTEgLTEgMCAyNSAyNSkiLz48L3N2Zz4=);
+}
+```
+
+### インラインのSVG画像を使用して三角形を作成
+
+<Canvas>
+  <Story of={RibbonStories.Gamma} />
+</Canvas>
+
+この方法を使用すると、各SVGの矢印の色はfillで定義できます。矢印のサイズはリボンのサイズによって計算されます。
+
+ここでも、これまで見てきた他の方法と同様にem単位を使用してサイズを定義し、矢印を絶対配置にしています。
+
+```css
+/* 矢印を絶対配置して正しいサイズを設定 */
+.p-list-ribbon-gamma .p-list-ribbon-link > svg {
+  position: absolute;
+  top: 0;
+  width: 0.667em;
+  height: 2.667em;
+}
+
+/* 左の矢印 */
+.p-list-ribbon-gamma .p-list-ribbon-link > svg:first-child {
+  /* リボン要素の左側に左矢印を貼り付ける */
+  left: 0;
+
+  /* 背景色と一致するカラーを定義 */
+  fill: var(--color-root-background);
+}
+
+/* 右の矢印 */
+.p-list-ribbon-gamma .p-list-ribbon-link > svg:last-child {
+  /* リボン要素の外側に右矢印を押す */
+  left: 100%;
+}
+
+/* 1番目の要素の背景色と一致する塗りつぶし色を定義 */
+.p-list-ribbon-gamma .p-list-ribbon-item:nth-child(1) svg:last-child {
+  fill: var(--color-item-01);
+}
+
+/* 2番目の要素の背景色と一致する塗りつぶし色を定義 */
+.p-list-ribbon-gamma .p-list-ribbon-item:nth-child(2) svg:last-child {
+  fill: var(--color-item-02);
+}
+
+/* 3番目の要素の背景色と一致する塗りつぶし色を定義 */
+.p-list-ribbon-gamma .p-list-ribbon-item:nth-child(3) svg:last-child {
+  fill: var(--color-item-03);
+}
+```
+
+### `polygon()`関数を使ってclip-pathで三角形を作成
+
+<Canvas>
+  <Story of={RibbonStories.Delta} />
+</Canvas>
+
+`polygon()`は`%`を使用して作成する必要があるため、三角形のサイズに合わせて定義する必要があります。
+
+また、`%`ベースのポリゴンは、特にラッパー要素のように要素サイズが周囲に適応している場合には、一部のビューポートでは少し変に見えるかもしれません。ビューポートごとにポリゴンを再定義することを検討してください。
+
+```css
+.p-list-ribbon-delta .p-list-ribbon-item {
+  clip-path: polygon(95% 0, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+}
+```
+
+`Grid`でラッパー要素を定義したので、リボン要素を展開し、最後の要素はポリゴン三角形のサイズ、つまり5%にします。最後のリボン要素は、最初の2つの例と一致するように、borderの三角形の幅だけ広くする必要があります。
+
+```css
+/* 最後を除くすべてのリボン要素をポリゴン三角形のサイズだけ広くする */
+.p-list-ribbon-delta .p-list-ribbon-item:not(:last-child) {
+  width: 105%;
+}
+
+/* 最後のリボン要素をborderの三角形のサイズだけ広くする */
+.p-list-ribbon-delta .p-list-ribbon-item:last-child {
+  width: calc(100% + 0.667em);
+}
+```
+
+## オプションのバリエーション
+
+シャドウ、グラデーション、サイズなど、デザインに合わせてバリエーションがあります。
+
+### シャドウを加える
+
+<Canvas>
+  <Story of={RibbonStories.Shadow} />
+</Canvas>
+
+リボン要素の左側または右側のシャドウは避けてください。
+
+```css
+/* 各リボン要素の下にシャドウを付ける */
+.p-list-ribbon-shadow .p-list-ribbon-item {
+  box-shadow: 1px 3px 3px -3px var(--color-list-ribbon-shadow);
+}
+```
+
+### グラデーションを加える
+
+<Canvas>
+  <Story of={RibbonStories.Gradient} />
+</Canvas>
+
+`border`または背景画像を使用した場合は、水平方向（つまり左から右方向）のグラデーションを使用する必要があります。`clip-path`を使用した場合は、任意のグラデーションバージョンを使用できます。
+
+```css
+/* 1番目のリボン要素にグラデーションを追加 */
+.p-list-ribbon-gradient .p-list-ribbon-item:nth-child(1) {
+  background: var(--color-list-ribbon-gradient-item-01);
+}
+
+/* 2番目のリボン要素にグラデーションを追加 */
+.p-list-ribbon-gradient .p-list-ribbon-item:nth-child(2) {
+  background: var(--color-list-ribbon-gradient-item-02);
+}
+
+/* 3番目のリボン要素にグラデーションを追加 */
+.p-list-ribbon-gradient .p-list-ribbon-item:nth-child(3) {
+  background: var(--color-list-ribbon-gradient-item-03);
+}
+```
+
+### サイズのバリエーション
+
+<Canvas>
+  <Story of={RibbonStories.Small} />
+</Canvas>
+
+リボンは、サイズを小さくすることも大きくすることもできます。
+
+<Canvas>
+  <Story of={RibbonStories.Big} />
+</Canvas>
