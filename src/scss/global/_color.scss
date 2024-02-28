@@ -11,6 +11,7 @@
  * --------------------------------- */
 // white
 $white: #fff;
+$alabaster: #f8f8f8;
 
 // gray
 $mercury: #e6e6e6;
@@ -42,17 +43,8 @@ $tuna: #343435;
 $properties-list: (
   // text
   text-base: $mine-shaft,
-  text-progress-bar: $vida-loca,
 
   // background
-  bg-white: $white,
-  bg-gray: $mercury,
-  bg-disabled-gray: $mercury,
-  bg-progress-bar-complete: $vida-loca,
-
-  // border
-  border-white: $white,
-  border-emphasis-pink: $magenta-fuchsia,
-  border-disabled-gray: $mercury,
-  border-progress-bar-active: $vida-loca
+  bg-theme-light: $alabaster,
+  bg-theme-dark: $mine-shaft
 );

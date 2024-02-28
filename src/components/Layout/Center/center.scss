@@ -1,23 +1,33 @@
-@use "../../../scss/global/index" as global;
+@use "../../../scss/global/index" as g;
 
 /* -----------------------------------------------------------------------
  * Layout / Center
  * -------------------------------------------------------------------- */
+$l-center-color-list: (
+  bg-container: g.$color-mercury,
+  bg-content: g.$color-white,
+  border-centering-item: g.$color-magenta-fuchsia,
+);
+
 .l-center {
+  @each $key, $value in $l-center-color-list {
+    --color-l-center-#{$key}: #{$value};
+  }
+
   &.container {
     min-height: 200px;
     padding: 10px;
-    background-color: var(--color-bg-gray);
-    border: 1px solid var(--color-border-emphasis-pink);
+    background-color: var(--color-l-center-bg-container);
+    border: 1px solid var(--color-l-center-border-centering-item);
     border-radius: 5px;
-    @include global.resize-elm();
+    @include g.resize-elm();
   }
 
   > .content {
     padding: 15px;
-    background-color: var(--color-bg-white);
+    background-color: var(--color-l-center-bg-content);
     border-radius: 5px;
-    @include global.reset-margin();
+    @include g.reset-margin();
   }
 }
 
@@ -68,7 +78,7 @@
   border: none;
 
   > .content {
-    border: 1px solid var(--color-border-emphasis-pink);
+    border: 1px solid var(--color-l-center-border-centering-item);
   }
 }
 
@@ -82,7 +92,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    border: 1px solid var(--color-border-emphasis-pink);
+    border: 1px solid var(--color-l-center-border-centering-item);
     transform: translate(-50%, -50%);
   }
 }

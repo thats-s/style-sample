@@ -1,13 +1,28 @@
-@use "../../../scss/global/index" as global;
+@use "../../../scss/global/index" as g;
 
 /* -----------------------------------------------------------------------
  * Parts / Progress Bar
  * -------------------------------------------------------------------- */
+$p-progressBar-color-list: (
+  text: g.$color-vida-loca,
+  border-active: g.$color-vida-loca,
+  border-inactive: g.$color-mercury,
+  bullet-active: g.$color-white,
+  bullet-border-active: g.$color-vida-loca,
+  bullet-inactive: g.$color-mercury,
+  bullet-border-inactive: g.$color-white,
+  bullet-complete: g.$color-vida-loca,
+);
+
 .p-progress-bar {
+  @each $key, $value in $p-progressBar-color-list {
+    --color-progressBar-#{$key}: #{$value};
+  }
+
   display: flex;
   justify-content: space-between;
 
-  @include global.hover() {
+  @include g.hover() {
     > li {
       &:not(:hover) {
         > span {
@@ -25,10 +40,10 @@
     overflow: visible;
     font-size: var(--font-size-pc-default);
     font-weight: var(--font-nunito-sans-bold);
-    color: var(--color-text-progress-bar);
+    color: var(--color-progressBar-text);
     text-align: center;
     white-space: nowrap;
-    border-bottom: 2px solid var(--color-border-disabled-gray);
+    border-bottom: 2px solid var(--color-progressBar-border-inactive);
 
     &:first-child,
     &:last-child {
@@ -66,8 +81,8 @@
       width: 12px;
       height: 12px;
       content: "";
-      background-color: var(--color-bg-disabled-gray);
-      border: 2px solid var(--color-border-white);
+      background-color: var(--color-progressBar-bullet-inactive);
+      border: 2px solid var(--color-progressBar-bullet-border-inactive);
       border-radius: 50%;
       transition: all 0.2s ease-in-out;
     }
@@ -89,7 +104,7 @@
           display: block;
           width: 100%;
           content: "";
-          border-bottom: 2px solid var(--color-border-progress-bar-active);
+          border-bottom: 2px solid var(--color-progressBar-border-active);
         }
       }
 
@@ -103,21 +118,21 @@
 
     &.is-complete {
       &::before {
-        background-color: var(--color-bg-progress-bar-complete);
+        background-color: var(--color-progressBar-bullet-complete);
       }
     }
 
     &.is-active {
       &::before {
-        background-color: var(--color-bg-white);
-        border-color: var(--color-border-progress-bar-active);
+        background-color: var(--color-progressBar-bullet-active);
+        border-color: var(--color-progressBar-bullet-border-active);
       }
     }
 
     &.is-hovered {
       &::before {
-        background-color: var(--color-bg-white);
-        border-color: var(--color-border-progress-bar-active);
+        background-color: var(--color-progressBar-bullet-active);
+        border-color: var(--color-progressBar-bullet-border-active);
         transform: scale(1.33);
       }
 
@@ -126,10 +141,10 @@
       }
     }
 
-    @include global.hover() {
+    @include g.hover() {
       &::before {
-        background-color: var(--color-bg-white);
-        border-color: var(--color-border-progress-bar-active);
+        background-color: var(--color-progressBar-bullet-active);
+        border-color: var(--color-progressBar-bullet-border-active);
         transform: scale(1.33);
       }
 
