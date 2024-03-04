@@ -1,0 +1,204 @@
+@use "../../../scss/global/index" as g;
+
+/* -----------------------------------------------------------------------
+ * Technique / Content
+ * -------------------------------------------------------------------- */
+.t-content {
+  font-size: var(--font-size-pc-default);
+  font-weight: var(--font-nunito-sans-bold);
+  background-color: g.$color-mercury;
+
+  &-wrapper {
+    max-width: 800px;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+}
+
+// min-content
+.t-content-min {
+  width: min-content;
+}
+
+// max-content
+.t-content-max {
+  width: max-content;
+}
+
+// fit-content
+.t-content-fit {
+  width: fit-content;
+}
+
+// 画像とキャプション
+.t-content-images-and-captions {
+  width: fit-content;
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  > figcaption {
+    margin-top: 10px;
+    font-size: g.rem(18);
+    font-weight: var(--font-nunito-sans-regular);
+  }
+}
+
+// タイトル付き区切り線
+.t-content-titled-separator-line {
+  > h2 {
+    position: relative;
+    font-size: g.rem(20);
+    text-align: center;
+
+    &::before {
+      position: absolute;
+      top: 9px;
+      left: 0;
+      z-index: -1;
+      width: 100%;
+      height: 50px;
+      content: "";
+      border: 4px solid;
+      border-bottom: 0;
+    }
+
+    > span {
+      position: relative;
+      top: -8px;
+      display: inline-block;
+      width: min-content;
+      padding: 0 15px;
+      background-color: var(--color-bg-theme-white);
+    }
+  }
+}
+
+// アンダーライン付きタイトル
+.t-content-underlined-title {
+  > h2 {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: g.rem(20);
+    font-weight: var(--font-nunito-sans-bold);
+    border-bottom: 3px solid;
+  }
+}
+
+// コンテンツに基づいたナビゲーション
+.t-content-based-navigation {
+  > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: max-content;
+    padding: 1rem;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: var(--color-bg-theme-light);
+    border-radius: 5px;
+
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin-left: auto;
+
+      > li {
+        margin-left: 15px;
+
+        > a {
+          text-decoration: underline;
+
+          @include g.hover() {
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// コンテンツに基づいたTODOリスト
+.t-content-based-list-todo {
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+  height: min(100vh, 500px);
+
+  header {
+    padding: 10px 15px;
+    font-weight: var(--font-nunito-sans-bold);
+    color: var(--color-text-white);
+    background-color: g.$color-sapphire;
+  }
+
+  > ul {
+    padding: 10px 15px;
+    background-color: g.$color-snuff;
+
+    > li {
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  footer {
+    padding: 10px 15px;
+    background-color: g.$color-gallery;
+  }
+}
+
+// コンテンツに基づいたヒーローセクション
+.t-content-based-section-hero {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  min-height: 250px;
+  color: var(--color-text-white);
+  background: g.$color-curious-blue;
+
+  h2 {
+    font-size: g.rem(18);
+    font-weight: var(--font-nunito-sans-bold);
+    text-align: center;
+  }
+
+  > div {
+    align-self: center;
+  }
+
+  nav {
+    /* stylelint-disable-next-line scss/no-global-function-names */
+    background: darken(g.$color-curious-blue, 20%);
+
+    > ul {
+      display: flex;
+      justify-content: center;
+
+      > li {
+        margin-right: 10px;
+
+        > a {
+          display: block;
+          padding: 12px 15px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+// 見出しと説明文
+.t-content-heading-and-description {
+  section {
+    width: min-content;
+    margin: 0 auto 20px;
+    text-align: center;
+  }
+
+  h2 {
+    width: max-content;
+    font-size: g.rem(18);
+    font-weight: var(--font-nunito-sans-bold);
+    color: g.$color-curious-blue;
+  }
+}

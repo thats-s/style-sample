@@ -11,10 +11,12 @@
  * --------------------------------- */
 // white
 $white: #fff;
-$alabaster: #f8f8f8;
 
 // gray
 $mercury: #e6e6e6;
+$snuff: #e2deed;
+$gallery: #eee;
+$alabaster: #f8f8f8;
 
 // red
 $violet-red: #ef3675;
@@ -23,6 +25,8 @@ $violet-red: #ef3675;
 $picton-blue: #4cd4e9;
 $picton-blue_02: #4c9fe9;
 $bright-turquoise: #11ced2;
+$sapphire: #3949ab;
+$curious-blue: #1e9ada;
 
 // pink
 $magenta-fuchsia: #f0f;
@@ -43,8 +47,10 @@ $tuna: #343435;
 $properties-list: (
   // text
   text-base: $mine-shaft,
+  text-white: $white,
 
   // background
+  bg-theme-white: $white,
   bg-theme-light: $alabaster,
   bg-theme-dark: $mine-shaft
 );

@@ -1,0 +1,222 @@
+import { ArgTypes, Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as ContentStories from './Content.stories.ts';
+
+<Meta of={ContentStories} />
+
+# fit-content, min-content, max-content
+
+`CSS`で要素やレイアウトのサイズを指定する方法には、幅や高さを固定値にサイズを定義する方法とその中のコンテンツに依存してサイズを決める方法があります。
+
+それぞれのメリットと使い分け方、特にレスポンシブで効果的なコンテンツに依存してサイズを決める方法を使ったテクニックについて紹介します。
+
+## CSSでのサイズ指定方法とは
+
+`CSS`には、内因性と外因性の2つのサイズ指定方法があります。一般的な方法は外因性で、要素の**幅や高さに固定値**を使用します。内因性は、要素内の**コンテンツのサイズに依存**して要素のサイズが決まります。
+
+内因性と外因性の2つのサイズ指定方法についてそれぞれの価値を探り、それらのメリットがどのように得られるのかを見ていきます。また、`Grid`やその他のプロパティと組み合わせて使用する方法についても解説します。
+
+## 外因性サイジング
+
+明示的な値を使用して要素のサイズ（幅や高さ）を設定することです。
+
+```css
+button {
+  width: 100px;
+}
+```
+
+ボタンの幅は100pxに設定されており、これを外因性サイジングと呼びます。<br/>
+場合によっては、コンテンツに基づいて要素のサイズを決定したいことがありますが、その場合には外因性サイジングを使用しても役に立ちません。
+
+## 内因性サイジング: `min-content`
+
+`min-content`値は内因性の最小幅で、要素のコンテンツで最も長い幅と等しくなります。
+
+見出しを例に見てましょう。
+
+<Canvas>
+  <Story of={ContentStories.MinContent} />
+</Canvas>
+
+`min-content`を`width`の値として定義した場合、要素の幅は最も長い単語の幅に等しくなります。上記の例では「awesome」と同じ幅になります。
+
+## 内因性サイジング: `max-content`
+
+`max-content`値は内因性の優先幅で、コンテンツの幅に等しくなります。
+
+先程と同じ、見出しを例に見てましょう。
+
+<Canvas>
+  <Story of={ContentStories.MaxContent} />
+</Canvas>
+
+要素の幅がコンテンツ（テキスト）に等しくなったことに注目してください。この幅は動的なので、テキストが変更されるとそれに応じて幅が変更されます。
+
+## 内因性サイジング: `fit-content`
+
+`fit-content`は、`min-content`と`max-content`を組み合わせたものです。
+
+先程と同じ、見出しを例にします。
+
+<Canvas>
+  <Story of={ContentStories.FitContent} />
+</Canvas>
+
+`fit-content`を定義すると、利用可能領域が`max-width`よりも大きいかどうかチェックをして、`width`が`max-content`に等しいかチェックします。利用可能領域が`max-content`より小さい場合、`width`は利用可能領域に等しくなります。そして最後に、利用可能領域が`min-content`より小さい場合、widthは`min-content`に等しくなります。
+
+## 実際の使用例
+
+### 画像とキャプション
+
+`figure`要素はブロック要素のため、その幅は親の100%になります。
+
+```html
+<figure class="t-content">
+  <img src="/src/stories/assets/dummy/500x330.webp" alt="" />
+  <figcaption>A caption for an awesome images</figcaption>
+</figure>
+```
+
+期待する動作は、`figure`要素が画像の幅に合わせたサイズになることで、キャプションも画像の幅に折り返されます。これは、`max-content`の出番です！<br/>
+`max-conent`を与えることにより、`figure`要素の幅がコンテンツと等しくなります。
+
+```css
+.t-content-images-and-captions {
+  width: max-content;
+  margin-right: auto;
+  margin-left: auto;
+}
+```
+
+ただし、画像の幅がビューポートより大きい場合は横スクロールが表示されてしまいます。
+
+この問題を解決するには、`fit-content`を使用する必要があります。`fit-content`を使うと、画像の幅はビューポートを超えません。
+
+```css
+.t-content-images-and-captions {
+  width: fit-content;
+}
+```
+
+<Canvas>
+  <Story of={ContentStories.ImagesAndCaptions} />
+</Canvas>
+
+### タイトル付き区切り線
+
+「Top Stories」というタイトルがあり、このテキストは2行で表示させたいとします。区切り線の幅は動的で、タイトルが何であれ2行にする必要があります。
+
+これを実現するには、`min-content`が役立ちます。
+
+<Canvas>
+  <Story of={ContentStories.TitledSeparatorLine} />
+</Canvas>
+
+### アンダーライン付きタイトル
+
+アンダーライン付きタイトルは、コンテンツと同じ幅のボーダーを持つ見出しです。
+
+見出しはブロックレベルの要素であることに注意してください。これを実現するには、`span`要素でコンテンツを内包し、その`span`要素にボーダーを適用します。
+
+`fit-content`を適用することで、コンテンツの長さ分だけタイトルの幅が広がります。
+
+<Canvas>
+  <Story of={ContentStories.UnderlinedTitle} />
+</Canvas>
+
+### コンテンツに基づいたナビゲーション
+
+コンテンツに基づいた幅をもつナビーションが必要な場合があります。`max-content`を使用することで、簡単に実現できます。
+
+<Canvas>
+  <Story of={ContentStories.BasedNavigation} />
+</Canvas>
+
+### コンテンツに基づいたTODOリスト
+
+ヘッダ、リスト、フッタの各要素を含むTODOリストです。高さはTODOリストのアイテム数に関係なく、ヘッダとフッタを含めて100%でなければなりません。<br/>
+これを実現するには、ラッパーに`Grid`と`min-content`を使用します。
+
+```css
+.t-content-based-list-todo {
+  display: grid;
+  grid-template-rows: min-content auto min-content;
+  height: 100vh;
+}
+```
+
+`min-content`を使用しない場合は、ヘッダとフッタはコンテンツを考慮せずに使用可能なスペースまで拡張されます。ただし、`min-content`が追加されると、ヘッダとフッタの高さはそれぞれのコンテンツを超えることはありません。
+
+<Canvas>
+  <Story of={ContentStories.BasedListTodo} />
+</Canvas>
+
+### コンテンツに基づいたヒーローセクション
+
+ヒーローセクション内にヘッダを配置することを想像してみてください。期待するのは、ヒーローコンテンツが利用可能なスペースをすべて使用できるようにする動的なレイアウトです。
+
+```css
+.t-content-based-section-hero {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+}
+```
+
+このレイアウトは2つの行を定義して、最初の行は`min-content`に基づいて高さを決め、2番目の行は使用可能なスペースを占めるように拡張できます。
+
+<Canvas>
+  <Story of={ContentStories.BasedSectionHero} />
+</Canvas>
+
+### コンテンツに基づいたサイドバー
+
+なぜ固定幅のサイドバーがあるのかいつも不思議に思います。幅がコンテンツベースの場合は、どうなりますか？ <br/>
+例えば、コンテンツに基づいた最小幅と最大幅があるとします。実際に試してみましょう。
+
+```html
+<div class="wrapper">
+  <aside></aside>
+  <main></main>
+</div>
+```
+
+```css
+.wrapper {
+  grid-template-columns: fit-content(150px) 1fr;
+  gap: 10px;
+}
+```
+
+`Grid`で`fit-content`関数を使用することで、サイドバーの幅が150pxを超えないようにし、コンテンツが短い場合はそれに合わせて縮小することができます。
+
+![コンテンツに基づいたサイドバー](/src/stories/assets/technique/content/sidebar_01.webp)
+
+サイドバーから長い単語（Dashboard）を削除すると短くなります。
+
+![コンテンツが短い場合、サイドバーも短くなる](/src/stories/assets/technique/content/sidebar_02.webp)
+
+### 見出しと説明文
+
+見出しと説明文があるとします。説明文の幅はそれに対応する見出しの幅を超えないようにします。<br/>
+`min-content`と`max-content`を使用すると実装できます。
+
+ラップするセクションの幅に`min-content`を追加し、見出し要素の幅として`max-content`を追加します。
+
+```css
+.t-content-heading-and-description section {
+  width: min-content;
+  margin: 0 auto 20px;
+  text-align: center;
+}
+
+.t-content-heading-and-description h2 {
+  width: max-content;
+}
+```
+
+スマホではビューポートよりテキストが長いと水平スクロールが発生するので注意してください。
+
+<Canvas>
+  <Story of={ContentStories.HeadingAndDescription} />
+</Canvas>
